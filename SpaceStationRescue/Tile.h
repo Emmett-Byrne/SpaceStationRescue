@@ -26,6 +26,8 @@ public:
 	void setWall(bool wall) { isWall = wall; };
 	bool getWall() { return isWall; };
 
+	int getSize() { return tileSize; };
+
 private:
 	sf::Vector2f pos;
 	bool isWall;
