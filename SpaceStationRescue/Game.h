@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Grid.h"
 #include "Player.h"
+#include "Predator.h"
 
 class Game
 {
@@ -18,6 +19,7 @@ private:
 
 	Grid grid;
 	Player player;
+	Predator predator;
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_ArialBlackfont; // font used by message

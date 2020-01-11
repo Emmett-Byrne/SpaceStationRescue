@@ -1,10 +1,11 @@
 #include "Game.h"
 
 Game::Game() :
-	m_window{ sf::VideoMode{ 2000, 2000, 32 }, "Warp Break" },
+	m_window{ sf::VideoMode{ 1920, 1080, 32 }, "Rescue" },
 	m_exitGame{ false },
-	grid(50,50, 100),
-	player(sf::Vector2f(100, 100), 5.0f, 30, grid)
+	grid(30,30, 200),
+	player(sf::Vector2f(100, 100), 8.0f, 30, grid),
+	predator(sf::Vector2f(1900, 1900), 8.0f, 30, grid,player)
 {
 }
 
@@ -47,10 +48,6 @@ void Game::processEvents()
 
 		if (event.type == sf::Event::KeyPressed)
 		{
-			if (event.key.code == sf::Keyboard::O)
-			{
-				grid.switchDrawLines();
-			}
 			if (event.key.code == sf::Keyboard::Up)
 			{
 				player.setMoveUp(true);
@@ -113,14 +110,18 @@ void Game::processEvents()
 void Game::update(sf::Time t_deltaTime)
 {
 	player.update(t_deltaTime);
+	predator.update(t_deltaTime);
 }
 
 void Game::render()
 {
-	m_window.clear(sf::Color::White);
+	m_window.clear(sf::Color::Blue);
 
-	grid.render(m_window);
-	player.render(m_window);
+	sf::Vector2f offset = -player.getPosition() + sf::Vector2f(1920/2, 1080/2);
+
+	grid.render(m_window, offset);
+	player.render(m_window, offset, sf::Color::Green);
+	predator.render(m_window, offset, sf::Color::Red);
 
 	m_window.display();
 }

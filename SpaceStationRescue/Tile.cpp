@@ -4,8 +4,7 @@ Tile::Tile(sf::Vector2f t_pos, int size) :
 	weight(999), 
 	pos(t_pos), 
 	tileSize(size), 
-	isWall(false),
-	closestNeighbour(nullptr)
+	isWall(false)
 {
 	neighbours.resize(8);
 	shape.setOutlineColor(sf::Color::Black);
@@ -17,97 +16,64 @@ Tile::Tile(sf::Vector2f t_pos, int size) :
 	line[1] = pos * tileSize + sf::Vector2f(tileSize / 2, tileSize / 2);
 }
 
-void Tile::setClosestNeighbour()
+sf::Vector2f Tile::getDirectionFromField(sf::Vector2f position)
 {
-	Tile* closest = nullptr;
-	for (int i = 0; i < neighbours.size(); i++)
+	int x = position.x / tileSize;
+	int y = position.y / tileSize;
+	position = sf::Vector2f(x, y);
+
+	for (int i = 0; i < vectorField.size(); i++)
 	{
-		if (i < 4 && neighbours[i] != nullptr)
+		if (position.x == vectorField[i].getPosition().x && position.y == vectorField[i].getPosition().y)
 		{
-			if (closest == nullptr)
-			{
-				closest = neighbours[i];
-			}
-			else if (neighbours[i]->getWeight() < closest->getWeight())
-			{
-				closest = neighbours[i];
-			}
-		}
-
-		//putting in extra checks on corners so we dont cut diagonally through tiles
-		if (i == 4 && neighbours[i] != nullptr &&
-			neighbours[0] != nullptr && !neighbours[0]->getWall() &&
-			neighbours[1] != nullptr && !neighbours[1]->getWall()
-			)
-		{
-			if (closest == nullptr)
-			{
-				closest = neighbours[i];
-			}
-			else if (neighbours[i]->getWeight() < closest->getWeight())
-			{
-				closest = neighbours[i];
-			}
-		}
-
-		if (i == 5 && neighbours[i] != nullptr &&
-			neighbours[0] != nullptr && !neighbours[0]->getWall() &&
-			neighbours[2] != nullptr && !neighbours[2]->getWall()
-			)
-		{
-			if (closest == nullptr)
-			{
-				closest = neighbours[i];
-			}
-			else if (neighbours[i]->getWeight() < closest->getWeight())
-			{
-				closest = neighbours[i];
-			}
-		}
-
-		if (i == 6 && neighbours[i] != nullptr &&
-			neighbours[3] != nullptr && !neighbours[3]->getWall() &&
-			neighbours[1] != nullptr && !neighbours[1]->getWall()
-			)
-		{
-			if (closest == nullptr)
-			{
-				closest = neighbours[i];
-			}
-			else if (neighbours[i]->getWeight() < closest->getWeight())
-			{
-				closest = neighbours[i];
-			}
-		}
-
-		if (i == 7 && neighbours[i] != nullptr &&
-			neighbours[3] != nullptr && !neighbours[3]->getWall() &&
-			neighbours[2] != nullptr && !neighbours[2]->getWall()
-			)
-		{
-			if (closest == nullptr)
-			{
-				closest = neighbours[i];
-			}
-			else if (neighbours[i]->getWeight() < closest->getWeight())
-			{
-				closest = neighbours[i];
-			}
+			sf::Vector2f direction = vectorField[i].getDirection();
+			std::cout << direction.x << ", " << direction.y << std::endl;
+			return vectorField[i].getDirection();
 		}
 	}
 
-	if (closest != nullptr)
-	{
-		sf::Vector2f toNeighbour = ((closest->getPosition() - pos) / 2.0f);
-		line[1].position = (pos + toNeighbour) * tileSize + sf::Vector2f(tileSize / 2, tileSize / 2);
-	}
-
-	closestNeighbour = closest;
+	return sf::Vector2f(0,0);
 }
 
-Tile* Tile::getClosestNeighbour()
+void Tile::generateVectorField()
 {
-	return closestNeighbour;
+	resetVectorField();
+	std::vector<VectorTile*> queue;
+	VectorTile* start = VectorTile::findFromField(vectorField, pos);
+	start->setWeight(0);
+	queue.push_back(start);
+
+
+	//extra check added to make sure corners are not cut
+	while (!queue.empty())
+	{
+		VectorTile* tile = queue.back();
+		std::vector<VectorTile*>* neighbours = tile->getNeightbours();
+		queue.pop_back();
+
+		for (int i = 0; i < neighbours->size(); i++)
+		{
+			if (
+				neighbours->at(i) != nullptr &&
+				tile->getWeight() + 1 < neighbours->at(i)->getWeight() &&
+				!neighbours->at(i)->getWall()
+				)
+			{
+				queue.insert(queue.begin(), neighbours->at(i));
+				neighbours->at(i)->setWeight(tile->getWeight() + 1);
+			}
+		}
+	}
+
+	updateVectorDirections();
+}
+
+void Tile::updateVectorDirections()
+{
+	for (int i = 0; i < vectorField.size(); i++)
+	{
+		vectorField[i].setClosestNeighbour();
+	}
 }
 
 void Tile::reset()
@@ -115,9 +81,75 @@ void Tile::reset()
 	weight = 999;
 }
 
-void Tile::render(sf::RenderWindow& t_window, bool drawLine)
+void Tile::resetVectorField()
 {
-	shape.setPosition(pos * tileSize + sf::Vector2f(tileSize / 2, tileSize / 2));
+	for (int i = 0; i < vectorField.size(); i++)
+	{
+		vectorField[i].setWeight(999);
+	}
+}
+
+void Tile::setupFieldNeighbours()
+{
+	for (int i = 0; i < vectorField.size(); i++)
+	{
+		sf::Vector2f gridPos = vectorField[i].getPosition();
+		std::vector<VectorTile*>* vNeighbours = vectorField[i].getNeightbours();
+
+		//top centre
+		if (gridPos.y > 0)
+		{
+			vNeighbours->at(0) = VectorTile::findFromField(vectorField, (gridPos + sf::Vector2f(0, -1)));
+		}
+
+		//left
+		if (gridPos.x > 0)
+		{
+			vNeighbours->at(1) = VectorTile::findFromField(vectorField, (gridPos + sf::Vector2f(-1, 0)));
+		}
+
+		//right
+		if (gridPos.x < 50)
+		{
+			vNeighbours->at(2) = VectorTile::findFromField(vectorField, (gridPos + sf::Vector2f(1, 0)));
+		}
+
+		//bottom centre
+		if (gridPos.y < 50)
+		{
+			vNeighbours->at(3) = VectorTile::findFromField(vectorField, (gridPos + sf::Vector2f(0, 1)));
+		}
+
+
+		//top left
+		if (gridPos.x > 0 && gridPos.y > 0)
+		{
+			vNeighbours->at(4) = VectorTile::findFromField(vectorField, (gridPos + sf::Vector2f(-1, -1)));
+		}
+
+		//top right
+		if (gridPos.x < 50 && gridPos.y > 0)
+		{
+			vNeighbours->at(5) = VectorTile::findFromField(vectorField, (gridPos + sf::Vector2f(1, -1)));
+		}
+
+		//bottom left
+		if (gridPos.x > 0 && gridPos.y < 50)
+		{
+			vNeighbours->at(6) = VectorTile::findFromField(vectorField, (gridPos + sf::Vector2f(-1, 1)));
+		}
+
+		//bottom right
+		if (gridPos.x < 50 && gridPos.y < 50)
+		{
+			vNeighbours->at(7) = VectorTile::findFromField(vectorField, (gridPos + sf::Vector2f(1, 1)));
+		}
+	}
+}
+
+void Tile::render(sf::RenderWindow& t_window, sf::Vector2f offset)
+{
+	shape.setPosition(pos * tileSize + sf::Vector2f(tileSize / 2, tileSize / 2) + offset);
 	if (isWall)
 	{
 		shape.setFillColor(sf::Color::Blue);
@@ -128,8 +160,14 @@ void Tile::render(sf::RenderWindow& t_window, bool drawLine)
 	}
 
 	t_window.draw(shape);
-	if (drawLine)
+}
+
+void Tile::showField(sf::RenderWindow& t_window, sf::Vector2f offset)
+{/*
+	for (int i = 0; i < vectorField.size(); i++)
 	{
-		t_window.draw(line, 2, sf::Lines);
-	}
+		line[0] = vectorField[i].getPosition() * tileSize + sf::Vector2f(tileSize / 2, tileSize / 2) + offset;
+		line[1] = vectorField[i].getClosestNeighbour()->getPosition() * tileSize + sf::Vector2f(tileSize / 2, tileSize / 2) + offset;
+	}*/
+
 }

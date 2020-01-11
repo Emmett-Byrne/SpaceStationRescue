@@ -13,10 +13,15 @@ public:
 	void pathTo(sf::Vector2f location);
 	void followPath();
 
+	sf::Vector2f getPosition() { return position; };
+
 	Tile* collidesWithWorld();
+	void collidesWithBounds();
 	bool circleRectCollision(sf::Vector2f circlePosition, int circleRadius, sf::Vector2f rectPosition, int rectWidth, int rectHeight);
 
-	virtual void render(sf::RenderWindow& t_window);
+	virtual void render(sf::RenderWindow& t_window, sf::Vector2f offset, sf::Color colour);
+
+	Tile* target;
 private:
 
 	sf::Vector2f position;
@@ -24,7 +29,6 @@ private:
 	float radius;
 
 	Grid& grid;
-	Tile* target;
 
 	sf::CircleShape shape;
 };

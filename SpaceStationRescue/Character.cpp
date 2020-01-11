@@ -4,7 +4,8 @@ Character::Character(sf::Vector2f _pos, float _speed, float _size, Grid& _grid) 
 	grid(_grid),
 	radius(_size),
 	speed(_speed),
-	position(_pos)
+	position(_pos),
+	target(nullptr)
 {
 	shape.setRadius(radius);
 	shape.setOrigin(radius, radius);
@@ -21,14 +22,20 @@ void Character::move(sf::Vector2f direction)
 	{
 		position -= direction / length * speed;
 	}
+	collidesWithBounds();
 }
 
 void Character::pathTo(sf::Vector2f location)
 {
+	target = grid.findAtCoordinatePosition(location);
 }
 
 void Character::followPath()
 {
+	if (target != nullptr)
+	{
+		move(target->getDirectionFromField(position));
+	}
 }
 
 Tile* Character::collidesWithWorld()
@@ -57,6 +64,26 @@ Tile* Character::collidesWithWorld()
 	return nullptr;
 }
 
+void Character::collidesWithBounds()
+{
+	if (position.x - radius < 0)
+	{
+		position.x = radius;
+	}
+	if (position.y - radius < 0)
+	{
+		position.y = radius;
+	}
+	if (position.x + radius > 30 * 200)
+	{
+		position.x = 30 * 200 - radius;
+	}
+	if (position.y + radius > 30 * 200)
+	{
+		position.y = 30 * 200 - radius;
+	}
+}
+
 bool Character::circleRectCollision(sf::Vector2f circlePosition, int circleRadius, sf::Vector2f rectPosition, int rectWidth, int rectHeight)
 {
 	int DeltaX = circlePosition.x - std::max(rectPosition.x, std::min(circlePosition.x, rectPosition.x + rectWidth));
@@ -64,8 +91,9 @@ bool Character::circleRectCollision(sf::Vector2f circlePosition, int circleRadiu
 	return (DeltaX * DeltaX + DeltaY * DeltaY) < (circleRadius * circleRadius);
 }
 
-void Character::render(sf::RenderWindow& t_window)
+void Character::render(sf::RenderWindow& t_window, sf::Vector2f offset, sf::Color colour)
 {
-	shape.setPosition(position);
+	shape.setFillColor(colour);
+	shape.setPosition(position + offset);
 	t_window.draw(shape);
 }
