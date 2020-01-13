@@ -198,3 +198,45 @@ void Grid::resetTiles()
 		grid[i].reset();
 	}
 }
+
+std::vector<sf::Vector2f> Grid::createPath(sf::Vector2f start, sf::Vector2f target)
+{
+	resetTiles();
+	Tile* startTile = findAtCoordinatePosition(start);
+	Tile* targetTile = findAtCoordinatePosition(target);
+	startTile->setDistance(Tile::distanceBetween(*startTile, *targetTile));
+	targetTile->setDistance(0);
+	
+	std::priority_queue<Tile*> queue;
+
+	while (!queue.empty())
+	{
+		Tile* current = queue.top();
+		queue.pop();
+
+		std::vector<Tile*>* neighbours = current->getNeightbours();
+
+		for (int i = 0; i < neighbours->size(); i++)
+		{
+			Tile* child = neighbours->at(i);
+			child->setDistance(Tile::distanceBetween(*child, *targetTile));
+			
+		}
+	}
+	//  for each vertex v in Graph:	// Initialization
+	//		dist[v] : = infinity	// initial distance from source to vertex v is set to infinite
+	//		previous[v] : = undefined	// Previous node in optimal path from source
+	//	dist[source] : = 0	// Distance from source to source
+	//	Q : = the set of all nodes in Graph	// all nodes in the graph are unoptimized - thus are in Q
+	//	while Q is not empty :	// main loop
+	//		u : = node in Q with smallest dist[]
+	//		remove u from Q
+	//		for each neighbor v of u :	// where v has not yet been removed from Q.
+	//			alt : = dist[u] + dist_between(u, v)
+	//			if alt < dist[v]	// Relax (u,v)
+	//				dist[v] : = alt
+	//				previous[v] : = u
+	//	return previous[]
+
+	return std::vector<sf::Vector2f>();
+}

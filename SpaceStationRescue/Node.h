@@ -4,6 +4,7 @@
 class Node
 {
 public:
+	Node() : position(sf::Vector2f(0, 0)), searched(false), distance(9999) {};
 	Node(sf::Vector2f t_position) : position(t_position), searched(false), distance(9999) 
 	{};
 

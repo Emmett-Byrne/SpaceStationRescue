@@ -11,6 +11,7 @@ public:
 	//functional functions
 	void render(sf::RenderWindow& t_window, sf::Vector2f offset);
 	void reset();
+	static float distanceBetween(Tile first, Tile second);
 
 	//accessors
 	void setPosition(sf::Vector2f t_pos) { pos = t_pos; };
@@ -23,6 +24,17 @@ public:
 
 	int getSize() { return tileSize; };
 
+	float getDistance() { return distance; };
+	void setDistance(float d) { distance = d; };
+
+	float getTotalDistance() { return totalDistance; };
+	void setTotalDistance(float d) { totalDistance = d; };
+
+	Tile* getPrevious() { return previous; };
+	void setPrevious(Tile* p) { previous = p; };
+
+	bool operator < (const Tile& lhs);
+
 private:
 
 	sf::Vector2f pos;
@@ -32,6 +44,11 @@ private:
 	int weight;
 	sf::RectangleShape shape;
 	std::vector<Tile*> neighbours;
+
+	float distance;
+	float totalDistance;
+	Tile* previous;
+	bool searched;
 
 	sf::Vertex line[2];
 };

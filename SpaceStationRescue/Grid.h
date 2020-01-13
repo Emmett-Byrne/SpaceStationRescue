@@ -3,6 +3,7 @@
 #include "Tile.h"
 #include <vector>
 #include <iostream>
+#include <queue>
 
 class Grid
 {
@@ -21,6 +22,8 @@ private:
 	void createHorizontalWall(sf::Vector2f pos, int len);
 	void createVerticalWall(sf::Vector2f pos, int len);
 	void resetTiles();
+
+	std::vector<sf::Vector2f> createPath(sf::Vector2f start, sf::Vector2f target);
 
 	std::vector<Tile> grid;
 	int tileSize;

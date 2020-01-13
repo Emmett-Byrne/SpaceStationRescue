@@ -18,7 +18,19 @@ Tile::Tile(sf::Vector2f t_pos, int size) :
 
 void Tile::reset()
 {
-	weight = 999;
+	distance = 9999999;
+	searched = false;
+}
+
+float Tile::distanceBetween(Tile first, Tile second)
+{
+	sf::Vector2f vector = first.getPosition() - second.getPosition();
+	return sqrt(vector.x * vector.x + vector.y * vector.y);
+}
+
+bool Tile::operator<(const Tile& lhs)
+{
+	return this->distance < lhs.distance;
 }
 
 void Tile::render(sf::RenderWindow& t_window, sf::Vector2f offset)
