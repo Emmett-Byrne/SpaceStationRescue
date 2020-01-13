@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include "Tile.h"
 #include <vector>
-#include "VectorTile.h"
 #include <iostream>
 
 class Grid
@@ -11,7 +10,6 @@ public:
 	Grid(int x, int y, int size);
 
 	Tile* findAtPosition(sf::Vector2f position);
-	VectorTile* findVectorAtPosition(sf::Vector2f position);
 	Tile* findAtCoordinatePosition(sf::Vector2f position);
 
 	void render(sf::RenderWindow& t_window, sf::Vector2f offset);
@@ -25,7 +23,6 @@ private:
 	void resetTiles();
 
 	std::vector<Tile> grid;
-	std::vector<VectorTile> field;
 	int tileSize;
 
 	bool drawLines;

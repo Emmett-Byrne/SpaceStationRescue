@@ -32,10 +32,6 @@ void Character::pathTo(sf::Vector2f location)
 
 void Character::followPath()
 {
-	if (target != nullptr)
-	{
-		move(target->getDirectionFromField(position));
-	}
 }
 
 Tile* Character::collidesWithWorld()

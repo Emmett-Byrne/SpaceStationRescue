@@ -40,6 +40,7 @@ void Game::processEvents()
 		if (sf::Event::Closed == event.type) // window message
 		{
 			m_window.close();
+			m_exitGame = true;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
@@ -110,6 +111,7 @@ void Game::processEvents()
 void Game::update(sf::Time t_deltaTime)
 {
 	player.update(t_deltaTime);
+	std::cout << player.getPosition().x << ", " << player.getPosition().y << std::endl;
 	predator.update(t_deltaTime);
 }
 

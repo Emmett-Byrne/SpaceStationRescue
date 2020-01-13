@@ -22,18 +22,6 @@ Tile* Grid::findAtPosition(sf::Vector2f position)
 	return nullptr;
 }
 
-VectorTile* Grid::findVectorAtPosition(sf::Vector2f position)
-{
-	for (int i = 0; i < field.size(); i++)
-	{
-		if (position.x == field[i].getPosition().x && position.y == field[i].getPosition().y)
-		{
-			return &field[i];
-		}
-	}
-	return nullptr;
-}
-
 Tile* Grid::findAtCoordinatePosition(sf::Vector2f position)
 {
 	int x = position.x / tileSize;
@@ -65,9 +53,7 @@ void Grid::setUpGrid(int x, int y, int size)
 		for (int j = 0; j < x; j++)
 		{ 
 			Tile newTile(sf::Vector2f(j, i), size);
-			VectorTile newVectorTile(sf::Vector2f(j, i));
 			grid.push_back(newTile);
-			field.push_back(newVectorTile);
 		}
 	}
 }
@@ -78,34 +64,29 @@ void Grid::setUpNeighbours()
 	{
 		sf::Vector2f gridPos = grid[i].getPosition();
 		std::vector<Tile*>* neighbours = grid[i].getNeightbours();
-		std::vector<VectorTile*>* vNeighbours = field[i].getNeightbours();
 
 		//top centre
 		if (gridPos.y > 0)
 		{
 			neighbours->at(0) = findAtPosition(gridPos + sf::Vector2f(0, -1));
-			vNeighbours->at(0) = findVectorAtPosition(gridPos + sf::Vector2f(0, -1));
 		}
 
 		//left
 		if (gridPos.x > 0)
 		{
 			neighbours->at(1) = findAtPosition(gridPos + sf::Vector2f(-1, 0));
-			vNeighbours->at(1) = findVectorAtPosition(gridPos + sf::Vector2f(-1, 0));
 		}
 
 		//right
 		if (gridPos.x < 50)
 		{
 			neighbours->at(2) = findAtPosition(gridPos + sf::Vector2f(1, 0));
-			vNeighbours->at(2) = findVectorAtPosition(gridPos + sf::Vector2f(1, 0));
 		}
 
 		//bottom centre
 		if (gridPos.y < 50)
 		{
 			neighbours->at(3) = findAtPosition(gridPos + sf::Vector2f(0, 1));
-			vNeighbours->at(3) = findVectorAtPosition(gridPos + sf::Vector2f(0, 1));
 		}
 
 
@@ -113,28 +94,24 @@ void Grid::setUpNeighbours()
 		if (gridPos.x > 0 && gridPos.y > 0)
 		{
 			neighbours->at(4) = findAtPosition(gridPos + sf::Vector2f(-1, -1));
-			vNeighbours->at(4) = findVectorAtPosition(gridPos + sf::Vector2f(-1, -1));
 		}
 
 		//top right
 		if (gridPos.x < 50 && gridPos.y > 0)
 		{
 			neighbours->at(5) = findAtPosition(gridPos + sf::Vector2f(1, -1));
-			vNeighbours->at(5) = findVectorAtPosition(gridPos + sf::Vector2f(1, -1));
 		}
 
 		//bottom left
 		if (gridPos.x > 0 && gridPos.y < 50)
 		{
 			neighbours->at(6) = findAtPosition(gridPos + sf::Vector2f(-1, 1));
-			vNeighbours->at(6) = findVectorAtPosition(gridPos + sf::Vector2f(-1, 1));
 		}
 
 		//bottom right
 		if (gridPos.x < 50 && gridPos.y < 50)
 		{
 			neighbours->at(7) = findAtPosition(gridPos + sf::Vector2f(1, 1));
-			vNeighbours->at(7) = findVectorAtPosition(gridPos + sf::Vector2f(1, 1));
 		}
 	}
 }
@@ -189,24 +166,11 @@ void Grid::setupWorld()
 	createVerticalWall(sf::Vector2f(14, 8), 14);
 	createVerticalWall(sf::Vector2f(15, 8), 14);
 	createVerticalWall(sf::Vector2f(21, 8), 14);
-
-	for (int i = 0; i < grid.size(); i++)
-	{
-
-		std::cout << "Pre-Processing vector field: (" << (i + 1.0f) / grid.size() * 100 << "%)" << std::endl;
-		grid[i].setField(field);
-		if (!grid[i].getWall())
-		{
-			grid[i].setupFieldNeighbours();
-			grid[i].generateVectorField();
-		}
-	}
 }
 
 void Grid::setAsWall(sf::Vector2f pos)
 {
 	findAtPosition(pos)->setWall(true);
-	findVectorAtPosition(pos)->setWall(true);
 }
 
 void Grid::createHorizontalWall(sf::Vector2f pos, int len)
@@ -215,7 +179,6 @@ void Grid::createHorizontalWall(sf::Vector2f pos, int len)
 	{
 		sf::Vector2f newPos = sf::Vector2f(pos.x + i, pos.y);
 		findAtPosition(newPos)->setWall(true);
-		findVectorAtPosition(newPos)->setWall(true);
 	}
 }
 
@@ -225,7 +188,6 @@ void Grid::createVerticalWall(sf::Vector2f pos, int len)
 	{
 		sf::Vector2f newPos = sf::Vector2f(pos.x, pos.y + i);
 		findAtPosition(newPos)->setWall(true);
-		findVectorAtPosition(newPos)->setWall(true);
 	}
 }
 
