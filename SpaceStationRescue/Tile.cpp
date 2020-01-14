@@ -19,6 +19,7 @@ Tile::Tile(sf::Vector2f t_pos, int size) :
 void Tile::reset()
 {
 	distance = 9999999;
+	totalDistance = 9999999;
 	searched = false;
 }
 
@@ -30,7 +31,7 @@ float Tile::distanceBetween(Tile first, Tile second)
 
 bool Tile::operator<(const Tile& lhs)
 {
-	return this->distance < lhs.distance;
+	return this->totalDistance < lhs.totalDistance;
 }
 
 void Tile::render(sf::RenderWindow& t_window, sf::Vector2f offset)
