@@ -203,11 +203,12 @@ std::vector<sf::Vector2f> Grid::createPath(sf::Vector2f start, sf::Vector2f targ
 {
 	resetTiles();
 	Tile* startTile = findAtCoordinatePosition(start);
-	Tile* targetTile = findAtCoordinatePosition(target);
+	Tile* targetTile = findAtPosition(target);
 	startTile->setDistance(0);
 	startTile->setTotalDistance(Tile::distanceBetween(*startTile, *targetTile));
 	
-	std::priority_queue<Tile*> queue;
+	std::priority_queue<Tile*, std::vector<Tile*>, LessThanByTotalDistance> queue;
+	queue.push(startTile);
 
 	while (!queue.empty() && queue.top() != targetTile)
 	{
@@ -219,19 +220,57 @@ std::vector<sf::Vector2f> Grid::createPath(sf::Vector2f start, sf::Vector2f targ
 		for (int i = 0; i < neighbours->size(); i++)
 		{
 			Tile* child = neighbours->at(i);
-			float distance = Tile::distanceBetween(*child, *current) + current->getDistance();
-			if (child->getDistance() > distance)
+			if (child != nullptr && !child->getWall())
 			{
-				child->setDistance(distance);
-				child->setTotalDistance(distance + Tile::distanceBetween(*child, *targetTile));
-				child->setPrevious(current);
+				if (i == 4 && 
+					(neighbours->at(0) != nullptr && neighbours->at(0)->getWall() || 
+					neighbours->at(1) != nullptr && neighbours->at(1)->getWall()))
+				{
+					break;
+				}
 
-				queue.push(child);
+				else if (i == 5 &&
+						(neighbours->at(0) != nullptr && neighbours->at(0)->getWall() ||
+						neighbours->at(2) != nullptr && neighbours->at(2)->getWall()))
+				{
+					break;
+				}
+
+				else if (i == 6 &&
+						(neighbours->at(1) != nullptr && neighbours->at(1)->getWall() ||
+						neighbours->at(3) != nullptr && neighbours->at(3)->getWall()))
+				{
+					break;
+				}
+
+				else if (i == 7 &&
+						(neighbours->at(2) != nullptr && neighbours->at(2)->getWall() ||
+						neighbours->at(3) != nullptr && neighbours->at(3)->getWall()))
+				{
+					break;
+				}
+				float distance = Tile::distanceBetween(*child, *current) + current->getDistance();
+				if (child->getDistance() > distance)
+				{
+					child->setDistance(distance);
+					child->setTotalDistance(distance + Tile::distanceBetween(*child, *targetTile));
+					child->setPrevious(current);
+
+					queue.push(child);
+				}
 			}
 		}
 	}
 
-	//TODO: create path of vectors
+	std::vector<sf::Vector2f> output;
+	output.push_back(targetTile->getPosition() * (float)tileSize + sf::Vector2f(tileSize / 2, tileSize / 2));
+	while (targetTile->getPrevious() != nullptr)
+	{
+		targetTile = targetTile->getPrevious();
+		output.push_back(targetTile->getPosition() * (float)tileSize + sf::Vector2f(tileSize/2, tileSize/2));
+	}
 
-	return std::vector<sf::Vector2f>();
+	output.pop_back();
+
+	return output;
 }

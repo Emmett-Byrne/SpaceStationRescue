@@ -28,6 +28,8 @@ private:
 	float speed;
 	float radius;
 
+	std::vector<sf::Vector2f> path;
+
 	Grid& grid;
 
 	sf::CircleShape shape;

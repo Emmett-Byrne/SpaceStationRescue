@@ -35,6 +35,7 @@ public:
 
 	bool operator < (const Tile& lhs);
 
+	float totalDistance;
 private:
 
 	sf::Vector2f pos;
@@ -46,10 +47,16 @@ private:
 	std::vector<Tile*> neighbours;
 
 	float distance;
-	float totalDistance;
 	Tile* previous;
 	bool searched;
 
 	sf::Vertex line[2];
 };
 
+struct LessThanByTotalDistance
+{
+	bool operator()(const Tile* lhs, const Tile* rhs) const
+	{
+		return lhs->totalDistance > rhs->totalDistance;
+	}
+};

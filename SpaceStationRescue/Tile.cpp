@@ -20,6 +20,7 @@ void Tile::reset()
 {
 	distance = 9999999;
 	totalDistance = 9999999;
+	previous = nullptr;
 	searched = false;
 }
 

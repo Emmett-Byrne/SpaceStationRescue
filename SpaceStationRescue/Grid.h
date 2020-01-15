@@ -12,6 +12,9 @@ public:
 
 	Tile* findAtPosition(sf::Vector2f position);
 	Tile* findAtCoordinatePosition(sf::Vector2f position);
+	std::vector<sf::Vector2f> createPath(sf::Vector2f start, sf::Vector2f target);
+
+	float getTileSize() { return tileSize; };
 
 	void render(sf::RenderWindow& t_window, sf::Vector2f offset);
 private:
@@ -23,7 +26,6 @@ private:
 	void createVerticalWall(sf::Vector2f pos, int len);
 	void resetTiles();
 
-	std::vector<sf::Vector2f> createPath(sf::Vector2f start, sf::Vector2f target);
 
 	std::vector<Tile> grid;
 	int tileSize;

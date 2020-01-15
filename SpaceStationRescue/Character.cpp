@@ -28,10 +28,15 @@ void Character::move(sf::Vector2f direction)
 void Character::pathTo(sf::Vector2f location)
 {
 	target = grid.findAtCoordinatePosition(location);
+	path = grid.createPath(position, target->getPosition());
 }
 
 void Character::followPath()
 {
+	if (!path.empty())
+	{
+		move(path.back() - position);
+	}
 }
 
 Tile* Character::collidesWithWorld()
