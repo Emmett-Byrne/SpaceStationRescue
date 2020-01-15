@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(sf::Vector2f pos, float speed, float size, Grid& grid) : 
-	Character(pos, speed, size, grid),
+	Character(pos, speed, size, 5, grid),
 	moveUp(false),
 	moveDown(false),
 	moveLeft(false),
@@ -27,4 +27,12 @@ void Player::update(sf::Time t_deltaTime)
 	{
 		Character::move(sf::Vector2f(1, 0));
 	}
+
+	updateBullet(t_deltaTime);
+}
+
+void Player::fire(sf::Vector2f target)
+{
+	sf::Vector2f direction = target - getPosition();
+	shootBullet(getPosition(), direction);
 }

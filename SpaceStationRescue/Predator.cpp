@@ -1,7 +1,7 @@
 #include "Predator.h"
 
 Predator::Predator(sf::Vector2f pos, float speed, float size, Grid& grid, Player& p) :
-	Character(pos, speed, size, grid),
+	Character(pos, speed, size, 2, grid),
 	player(p)
 {
 }

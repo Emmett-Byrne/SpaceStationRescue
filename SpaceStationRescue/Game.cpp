@@ -65,6 +65,12 @@ void Game::processEvents()
 			{
 				player.setMoveRight(true);
 			}
+
+			if (event.key.code == sf::Keyboard::Space)
+			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+				player.fire(sf::Vector2f(mousePos.x, mousePos.y));
+			}
 		}
 
 		if (event.type == sf::Event::KeyReleased)
@@ -112,7 +118,7 @@ void Game::update(sf::Time t_deltaTime)
 {
 	player.update(t_deltaTime);
 	std::cout << player.getPosition().x << ", " << player.getPosition().y << std::endl;
-	predator.update(t_deltaTime);
+	predator.update(t_deltaTime); 
 }
 
 void Game::render()
@@ -123,7 +129,7 @@ void Game::render()
 
 	grid.render(m_window, offset);
 	player.render(m_window, offset, sf::Color::Green);
-	predator.render(m_window, offset, sf::Color::Red);
+	predator.render(m_window, offset, sf::Color::Red); 
 
 	m_window.display();
 }

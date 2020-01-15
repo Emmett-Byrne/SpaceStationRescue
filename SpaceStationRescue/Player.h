@@ -10,6 +10,7 @@ public:
 	void setMoveDown(bool b) { moveDown = b; };
 	void setMoveLeft(bool b) { moveLeft = b; };
 	void setMoveRight(bool b) { moveRight = b; };
+	void fire(sf::Vector2f target);
 
 private:
 	bool moveUp;
