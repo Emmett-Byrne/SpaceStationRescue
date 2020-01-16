@@ -69,7 +69,7 @@ void Game::processEvents()
 			if (event.key.code == sf::Keyboard::Space)
 			{
 				sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-				player.fire(sf::Vector2f(mousePos.x, mousePos.y));
+				player.fire(sf::Vector2f(mousePos.x, mousePos.y) - sf::Vector2f(1920 /2, 1080 / 2) + player.getPosition());
 			}
 		}
 

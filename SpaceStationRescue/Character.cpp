@@ -14,7 +14,7 @@ Character::Character(sf::Vector2f _pos, float _speed, float _size, int h, Grid& 
 	shape.setRadius(radius);
 	shape.setOrigin(radius, radius);
 	bulletShape.setRadius(bulletRadius);
-	bulletShape.setOrigin(radius, radius);
+	bulletShape.setOrigin(bulletRadius, bulletRadius);
 	bulletShape.setFillColor(sf::Color::Yellow);
 }
 
@@ -80,6 +80,11 @@ void Character::updateBullet(sf::Time dt)
 			bulletPosition += (bulletDirection / sqrt(bulletDirection.x * bulletDirection.x + bulletDirection.y * bulletDirection.y)) * bulletSpeed;
 		}
 
+		if (collidesWithBounds(bulletPosition, bulletRadius) || collidesWithWorld(bulletPosition, bulletRadius) != nullptr)
+		{
+			bulletAlive = false;
+			bulletPosition = sf::Vector2f(-1000, -1000);
+		}
 	}
 }
 
@@ -121,24 +126,31 @@ Tile* Character::collidesWithWorld(sf::Vector2f pos, float rad)
 	return nullptr;
 }
 
-void Character::collidesWithBounds(sf::Vector2f& pos, float rad)
+bool Character::collidesWithBounds(sf::Vector2f& pos, float rad)
 {
+	bool hit = false;
 	if (pos.x - rad < 0)
 	{
 		pos.x = rad;
+		hit = true;
 	}
 	if (pos.y - rad < 0)
 	{
 		pos.y = rad;
+		hit = true;
 	}
-	if (pos.x + rad > 30 * 200)
+	if (pos.x + rad > 30 * grid.getTileSize())
 	{
-		pos.x = 30 * 200 - rad;
+		pos.x = 30 * grid.getTileSize() - rad;
+		hit = true;
 	}
-	if (pos.y + rad > 30 * 200)
+	if (pos.y + rad > 30 * grid.getTileSize())
 	{
-		pos.y = 30 * 200 - rad;
+		pos.y = 30 * grid.getTileSize() - rad;
+		hit = true;
 	}
+
+	return hit;
 }
 
 bool Character::circleRectCollision(sf::Vector2f circlePosition, int circleRadius, sf::Vector2f rectPosition, int rectWidth, int rectHeight)

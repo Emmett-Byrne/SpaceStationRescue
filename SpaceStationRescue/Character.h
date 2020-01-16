@@ -14,13 +14,16 @@ public:
 	void followPath();
 
 	sf::Vector2f getPosition() { return position; };
+	float getRadius() { return radius; };
+	sf::Vector2f getBulletPosition() { return bulletPosition; };
+	float getBulletRadius() { return bulletRadius; };
 	void takeDamage(int damage);
 	int getHealth() { return health; };
 	void updateBullet(sf::Time dt);
 	void shootBullet(sf::Vector2f location, sf::Vector2f direction);
 
 	Tile* collidesWithWorld(sf::Vector2f pos, float rad);
-	void collidesWithBounds(sf::Vector2f& pos, float rad);
+	bool collidesWithBounds(sf::Vector2f& pos, float rad);
 	static bool circleRectCollision(sf::Vector2f circlePosition, int circleRadius, sf::Vector2f rectPosition, int rectWidth, int rectHeight);
 	static bool circleCircleCollision(sf::Vector2f position1, float radius1, sf::Vector2f position2, float radius2);
 

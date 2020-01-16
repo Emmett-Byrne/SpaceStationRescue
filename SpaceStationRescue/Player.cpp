@@ -6,29 +6,31 @@ Player::Player(sf::Vector2f pos, float speed, float size, Grid& grid) :
 	moveDown(false),
 	moveLeft(false),
 	moveRight(false)
-{
-}
+{}
 
 void Player::update(sf::Time t_deltaTime)
 {
-	if (moveUp)
+	if (getHealth() > 0)
 	{
-		Character::move(sf::Vector2f(0, -1));
-	}
-	if (moveDown)
-	{
-		Character::move(sf::Vector2f(0, 1));
-	}
-	if (moveLeft)
-	{
-		Character::move(sf::Vector2f(-1, 0));
-	}
-	if (moveRight)
-	{
-		Character::move(sf::Vector2f(1, 0));
-	}
+		if (moveUp)
+		{
+			Character::move(sf::Vector2f(0, -1));
+		}
+		if (moveDown)
+		{
+			Character::move(sf::Vector2f(0, 1));
+		}
+		if (moveLeft)
+		{
+			Character::move(sf::Vector2f(-1, 0));
+		}
+		if (moveRight)
+		{
+			Character::move(sf::Vector2f(1, 0));
+		}
 
-	updateBullet(t_deltaTime);
+		updateBullet(t_deltaTime);
+	}
 }
 
 void Player::fire(sf::Vector2f target)

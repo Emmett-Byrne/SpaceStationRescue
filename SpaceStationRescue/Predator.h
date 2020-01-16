@@ -7,6 +7,12 @@ public:
 	Predator(sf::Vector2f pos, float speed, float size, Grid& grid, Player& p);
 	void update(sf::Time t_deltaTime);
 private:
+	bool collidesWithPlayer();
+	bool collidesWithBullet();
+	bool playerCollidseWithBullet();
 	Player& player;
+
+	float fireRange;
+	sf::Time fireCooldown;
 };
 
