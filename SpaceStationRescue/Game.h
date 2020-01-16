@@ -4,6 +4,8 @@
 #include "Grid.h"
 #include "Player.h"
 #include "Predator.h"
+#include "Worker.h"
+
 
 class Game
 {
@@ -17,9 +19,12 @@ private:
 	void update(sf::Time t_deltaTime);
 	void render();
 
-	Grid grid;
-	Player player;
-	Predator predator;
+	Grid m_grid;
+	Player m_player;
+	Predator m_predator;
+	
+	Worker m_worker;
+
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_ArialBlackfont; // font used by message

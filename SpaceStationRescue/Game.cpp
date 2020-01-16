@@ -3,9 +3,9 @@
 Game::Game() :
 	m_window{ sf::VideoMode{ 1920, 1080, 32 }, "Rescue" },
 	m_exitGame{ false },
-	grid(30,30, 200),
-	player(sf::Vector2f(100, 100), 8.0f, 30, grid),
-	predator(sf::Vector2f(1900, 1900), 8.0f, 30, grid,player)
+	m_grid(30,30, 200),
+	m_player(sf::Vector2f(100, 100), 8.0f, 30, m_grid),
+	m_predator(sf::Vector2f(1900, 1900), 8.0f, 30, m_grid,m_player)
 {
 }
 
@@ -51,25 +51,25 @@ void Game::processEvents()
 		{
 			if (event.key.code == sf::Keyboard::Up)
 			{
-				player.setMoveUp(true);
+				m_player.setMoveUp(true);
 			}
 			if (event.key.code == sf::Keyboard::Down)
 			{
-				player.setMoveDown(true);
+				m_player.setMoveDown(true);
 			}
 			if (event.key.code == sf::Keyboard::Left)
 			{
-				player.setMoveLeft(true);
+				m_player.setMoveLeft(true);
 			}
 			if (event.key.code == sf::Keyboard::Right)
 			{
-				player.setMoveRight(true);
+				m_player.setMoveRight(true);
 			}
 
 			if (event.key.code == sf::Keyboard::Space)
 			{
 				sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-				player.fire(sf::Vector2f(mousePos.x, mousePos.y));
+				m_player.fire(sf::Vector2f(mousePos.x, mousePos.y));
 			}
 		}
 
@@ -77,19 +77,19 @@ void Game::processEvents()
 		{
 			if (event.key.code == sf::Keyboard::Up)
 			{
-				player.setMoveUp(false);
+				m_player.setMoveUp(false);
 			}
 			if (event.key.code == sf::Keyboard::Down)
 			{
-				player.setMoveDown(false);
+				m_player.setMoveDown(false);
 			}
 			if (event.key.code == sf::Keyboard::Left)
 			{
-				player.setMoveLeft(false);
+				m_player.setMoveLeft(false);
 			}
 			if (event.key.code == sf::Keyboard::Right)
 			{
-				player.setMoveRight(false);
+				m_player.setMoveRight(false);
 			}
 		}
 
@@ -116,20 +116,20 @@ void Game::processEvents()
 
 void Game::update(sf::Time t_deltaTime)
 {
-	player.update(t_deltaTime);
-	std::cout << player.getPosition().x << ", " << player.getPosition().y << std::endl;
-	predator.update(t_deltaTime); 
+	m_player.update(t_deltaTime);
+	std::cout << m_player.getPosition().x << ", " << m_player.getPosition().y << std::endl;
+	m_predator.update(t_deltaTime); 
 }
 
 void Game::render()
 {
 	m_window.clear(sf::Color::Blue);
 
-	sf::Vector2f offset = -player.getPosition() + sf::Vector2f(1920/2, 1080/2);
+	sf::Vector2f offset = -m_player.getPosition() + sf::Vector2f(1920/2, 1080/2);
 
-	grid.render(m_window, offset);
-	player.render(m_window, offset, sf::Color::Green);
-	predator.render(m_window, offset, sf::Color::Red); 
+	m_grid.render(m_window, offset);
+	m_player.render(m_window, offset, sf::Color::Green);
+	m_predator.render(m_window, offset, sf::Color::Red); 
 
 	m_window.display();
 }
