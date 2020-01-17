@@ -13,6 +13,9 @@ public:
 	void pathTo(sf::Vector2f location);
 	void followPath();
 
+	void wander();
+
+	float getRadius();
 	sf::Vector2f getPosition() { return position; };
 	void takeDamage(int damage);
 	int getHealth() { return health; };

@@ -55,6 +55,17 @@ void Character::followPath()
 	}
 }
 
+void Character::wander()
+{
+
+
+}
+
+float Character::getRadius()
+{
+	return radius;
+}
+
 void Character::takeDamage(int damage)
 {
 	health -= damage;

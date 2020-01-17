@@ -5,7 +5,8 @@ Game::Game() :
 	m_exitGame{ false },
 	m_grid(30,30, 200),
 	m_player(sf::Vector2f(100, 100), 8.0f, 30, m_grid),
-	m_predator(sf::Vector2f(1900, 1900), 8.0f, 30, m_grid,m_player)
+	m_predator(sf::Vector2f(1900, 1900), 8.0f, 30, m_grid,m_player),
+	m_worker(sf::Vector2f(100,100), 8.0f, 30, m_grid)
 {
 }
 
@@ -130,6 +131,8 @@ void Game::render()
 	m_grid.render(m_window, offset);
 	m_player.render(m_window, offset, sf::Color::Green);
 	m_predator.render(m_window, offset, sf::Color::Red); 
+
+	m_worker.render(m_window, offset, sf::Color::Cyan);
 
 	m_window.display();
 }
