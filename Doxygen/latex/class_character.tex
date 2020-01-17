@@ -1,0 +1,95 @@
+\hypertarget{class_character}{}\doxysection{Character Class Reference}
+\label{class_character}\index{Character@{Character}}
+Inheritance diagram for Character\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_character}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_character_a326235503f18db7d7aa1ad2f1516ad46}\label{class_character_a326235503f18db7d7aa1ad2f1516ad46}} 
+{\bfseries Character} (sf\+::\+Vector2f \+\_\+pos, float \+\_\+speed, float \+\_\+size, int h, \mbox{\hyperlink{class_grid}{Grid}} \&\+\_\+grid)
+\item 
+\mbox{\Hypertarget{class_character_acec0c48739f76b80367f62e34074d2ad}\label{class_character_acec0c48739f76b80367f62e34074d2ad}} 
+void {\bfseries move} (sf\+::\+Vector2f direction)
+\item 
+\mbox{\Hypertarget{class_character_a4d8810887448b981dc970d0c3f4485e0}\label{class_character_a4d8810887448b981dc970d0c3f4485e0}} 
+void {\bfseries path\+To} (sf\+::\+Vector2f location)
+\item 
+\mbox{\Hypertarget{class_character_a13a14cbdbca9d26cd2b5bd114b32da7a}\label{class_character_a13a14cbdbca9d26cd2b5bd114b32da7a}} 
+void {\bfseries follow\+Path} ()
+\item 
+\mbox{\Hypertarget{class_character_a1e397c3cf6d701cd861a09b7e2f88462}\label{class_character_a1e397c3cf6d701cd861a09b7e2f88462}} 
+void {\bfseries wander} ()
+\item 
+\mbox{\Hypertarget{class_character_a4e8048b1e680fdfecd5dfaa61e6c040d}\label{class_character_a4e8048b1e680fdfecd5dfaa61e6c040d}} 
+sf\+::\+Vector2f {\bfseries get\+Position} ()
+\item 
+\mbox{\Hypertarget{class_character_a51d8fcfd3031a9079aa6ca76066f84c7}\label{class_character_a51d8fcfd3031a9079aa6ca76066f84c7}} 
+float {\bfseries get\+Radius} ()
+\item 
+\mbox{\Hypertarget{class_character_a5d9c1e8e0593df215c6e06f30a26b427}\label{class_character_a5d9c1e8e0593df215c6e06f30a26b427}} 
+sf\+::\+Vector2f {\bfseries get\+Bullet\+Position} ()
+\item 
+\mbox{\Hypertarget{class_character_a5d79029f83887533d0b0052fca81c3bc}\label{class_character_a5d79029f83887533d0b0052fca81c3bc}} 
+float {\bfseries get\+Bullet\+Radius} ()
+\item 
+\mbox{\Hypertarget{class_character_a5b06cc242690c9af1610c33e895348e2}\label{class_character_a5b06cc242690c9af1610c33e895348e2}} 
+void {\bfseries take\+Damage} (int damage)
+\item 
+\mbox{\Hypertarget{class_character_ae24a44b8a22d0727dd4e2c46a1df66f5}\label{class_character_ae24a44b8a22d0727dd4e2c46a1df66f5}} 
+int {\bfseries get\+Health} ()
+\item 
+\mbox{\Hypertarget{class_character_a754577a8ca2bedf00a16b5e7ce548850}\label{class_character_a754577a8ca2bedf00a16b5e7ce548850}} 
+void {\bfseries update\+Bullet} (sf\+::\+Time dt)
+\item 
+\mbox{\Hypertarget{class_character_a9625ce423fa08fe88dcb6a40dcd5e148}\label{class_character_a9625ce423fa08fe88dcb6a40dcd5e148}} 
+void {\bfseries shoot\+Bullet} (sf\+::\+Vector2f location, sf\+::\+Vector2f direction)
+\item 
+\mbox{\Hypertarget{class_character_af35850b04cde50204711c92ea6804f0e}\label{class_character_af35850b04cde50204711c92ea6804f0e}} 
+void {\bfseries set\+Health} (int num)
+\item 
+\mbox{\Hypertarget{class_character_a6b6c49453bceb5eed13d83c60503935e}\label{class_character_a6b6c49453bceb5eed13d83c60503935e}} 
+void {\bfseries set\+Speed} (float t\+\_\+speed)
+\item 
+\mbox{\Hypertarget{class_character_a614a7379e30c8bc0d05b10529bcceb21}\label{class_character_a614a7379e30c8bc0d05b10529bcceb21}} 
+float {\bfseries get\+Speed} ()
+\item 
+\mbox{\Hypertarget{class_character_a3a80bb167c9cfb3c0ad86a4e048a494f}\label{class_character_a3a80bb167c9cfb3c0ad86a4e048a494f}} 
+\mbox{\hyperlink{class_tile}{Tile}} $\ast$ {\bfseries collides\+With\+World} (sf\+::\+Vector2f pos, float rad)
+\item 
+\mbox{\Hypertarget{class_character_aaad531da34fdbdd4e603383eb48f529d}\label{class_character_aaad531da34fdbdd4e603383eb48f529d}} 
+bool {\bfseries collides\+With\+Bounds} (sf\+::\+Vector2f \&pos, float rad)
+\item 
+\mbox{\Hypertarget{class_character_ad1dda20ed8567275419c99e7f3259e47}\label{class_character_ad1dda20ed8567275419c99e7f3259e47}} 
+void {\bfseries set\+Position} (sf\+::\+Vector2f t\+\_\+pos)
+\item 
+\mbox{\Hypertarget{class_character_a5aad8e5ab81cb7c7fe6627fbc5d7414f}\label{class_character_a5aad8e5ab81cb7c7fe6627fbc5d7414f}} 
+\mbox{\hyperlink{class_grid}{Grid}} {\bfseries get\+Grid} ()
+\item 
+\mbox{\Hypertarget{class_character_a8084a6daf6be6d441cfba6fde0ebed52}\label{class_character_a8084a6daf6be6d441cfba6fde0ebed52}} 
+virtual void {\bfseries render} (sf\+::\+Render\+Window \&t\+\_\+window, sf\+::\+Vector2f offset, sf\+::\+Color colour)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_character_a1b9fc0cc6996991b2a0b299ef0432413}\label{class_character_a1b9fc0cc6996991b2a0b299ef0432413}} 
+static bool {\bfseries circle\+Rect\+Collision} (sf\+::\+Vector2f circle\+Position, int circle\+Radius, sf\+::\+Vector2f rect\+Position, int rect\+Width, int rect\+Height)
+\item 
+\mbox{\Hypertarget{class_character_a5ff961fabc4a92697532c6cc0f01a8e1}\label{class_character_a5ff961fabc4a92697532c6cc0f01a8e1}} 
+static bool {\bfseries circle\+Circle\+Collision} (sf\+::\+Vector2f position1, float radius1, sf\+::\+Vector2f position2, float radius2)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_character_a99ac528ccbfbe1d38da0d7392c57b326}\label{class_character_a99ac528ccbfbe1d38da0d7392c57b326}} 
+\mbox{\hyperlink{class_tile}{Tile}} $\ast$ {\bfseries target}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Character.\+h\item 
+Character.\+cpp\end{DoxyCompactItemize}

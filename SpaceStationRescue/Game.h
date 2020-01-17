@@ -26,7 +26,10 @@ private:
 	Player m_player;
 	//Predator m_predator;
 	
-	Worker m_worker;
+	Worker m_worker1;
+	Worker m_worker2;
+	Worker m_worker3;
+
 
 	Nest m_nest;
 	Missile m_missile;

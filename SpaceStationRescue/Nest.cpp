@@ -15,7 +15,7 @@ Nest::Nest(sf::Vector2f t_pos, float t_size, Grid& t_grid, float t_defenceRadius
 
 void Nest::update(sf::Time t_deltaTime)
 {
-	if (m_alive)
+	if (getHealth() > 0)
 	{
 		if (!m_missile.m_active)
 		{
@@ -25,23 +25,32 @@ void Nest::update(sf::Time t_deltaTime)
 			}
 		}
 
+		if (collidesWithPlayer())
+		{
+			m_player.takeDamage(1);
+		}
+		if (collidesWithBullet())
+		{
+			takeDamage(1);
+		}
 
-		if (!p1.getAlive())
+
+		if (p1.getHealth() <= 0)
 		{
 			p1.respawn();
 		}
-		if (!p2.getAlive())
+		if (p2.getHealth() <= 0)
 		{
 			p2.respawn();
 		}
-		if (!p3.getAlive())
+		if (p3.getHealth() <= 0)
 		{
 			p3.respawn();
 		}
 	}
 
 
-	m_missile.update(t_deltaTime, m_player.getPosition());
+	m_missile.update(t_deltaTime);
 
 	p1.update(t_deltaTime);
 	p2.update(t_deltaTime);
@@ -50,9 +59,23 @@ void Nest::update(sf::Time t_deltaTime)
 
 void Nest::render(sf::RenderWindow& t_window, sf::Vector2f t_offset, sf::Color t_colour)
 {
-	if (p1.getAlive()) { p1.render(t_window, t_offset, sf::Color::Red); }
-	if (p2.getAlive()) { p2.render(t_window, t_offset, sf::Color::Red); }
-	if (p3.getAlive()) { p3.render(t_window, t_offset, sf::Color::Red); }
+	if (p1.getHealth() > 0) { p1.render(t_window, t_offset, sf::Color::Red); }
+	if (p2.getHealth() > 0) { p2.render(t_window, t_offset, sf::Color::Red); }
+	if (p3.getHealth() > 0) { p3.render(t_window, t_offset, sf::Color::Red); }
 
 	Character::render(t_window, t_offset, t_colour);
+}
+
+
+
+bool Nest::collidesWithPlayer()
+{
+	sf::Vector2f distanceBetween = getPosition() - m_player.getPosition();
+	return sqrt(distanceBetween.x * distanceBetween.x + distanceBetween.y * distanceBetween.y) < getRadius() + m_player.getRadius();
+}
+
+bool Nest::collidesWithBullet()
+{
+	sf::Vector2f distanceBetween = getPosition() - m_player.getBulletPosition();
+	return sqrt(distanceBetween.x * distanceBetween.x + distanceBetween.y * distanceBetween.y) < getRadius() + m_player.getBulletRadius();
 }

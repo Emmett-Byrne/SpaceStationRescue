@@ -17,6 +17,8 @@ public:
 
 	void render(sf::RenderWindow& t_window, sf::Vector2f t_offset, sf::Color t_colour);
 
+	bool collidesWithPlayer();
+	bool collidesWithBullet();
 
 private:
 	Player& m_player;

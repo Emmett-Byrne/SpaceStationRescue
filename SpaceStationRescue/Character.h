@@ -15,7 +15,6 @@ public:
 
 	void wander();
 
-	float getRadius();
 	sf::Vector2f getPosition() { return position; };
 	float getRadius() { return radius; };
 	sf::Vector2f getBulletPosition() { return bulletPosition; };
@@ -24,7 +23,7 @@ public:
 	int getHealth() { return health; };
 	void updateBullet(sf::Time dt);
 	void shootBullet(sf::Vector2f location, sf::Vector2f direction);
-
+	void setHealth(int num);
 	void setSpeed(float t_speed);
 	float getSpeed();
 

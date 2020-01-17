@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(sf::Vector2f pos, float speed, float size, Grid& grid) : 
-	Character(pos, speed, size, 5, grid),
+	Character(pos, speed, size, 50, grid),
 	moveUp(false),
 	moveDown(false),
 	moveLeft(false),

@@ -132,13 +132,10 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Nest.cpp" />
-    <ClCompile Include="Node.cpp" />
-    <ClCompile Include="Path.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Predator.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Sweeper.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Worker.cpp" />
   </ItemGroup>
@@ -153,7 +150,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Predator.h" />
-    <ClInclude Include="Sweeper.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Worker.h" />
   </ItemGroup>

@@ -1,12 +1,11 @@
 #include "Predator.h"
 
 Predator::Predator(sf::Vector2f pos, float speed, float size, Grid& grid, Player& p) :
-	Character(pos, speed, size, 2, grid),
+	Character(pos, speed, size, 0, grid),
 	player(p),
 	fireRange(500),
 	m_respawnPos(pos)
 {
-	m_alive = false;
 	m_respawn = false;
 	srand((unsigned)time(0));
 }
@@ -47,7 +46,7 @@ void Predator::update(sf::Time t_deltaTime)
 			Character::followPath();
 		}
 	}
-	else if (m_respawn)
+	else if (getHealth() <= 0 && m_respawn)
 	{
 		m_timer -= t_deltaTime;
 
@@ -55,15 +54,10 @@ void Predator::update(sf::Time t_deltaTime)
 		{
 			Character::setPosition(m_respawnPos);
 
-			//set health
+			setHealth(2);
 			
 			m_respawn = false;
 		}
-	}
-
-	if (getHealth() <= 0 && m_respawn == false)
-	{
-		respawn();
 	}
 }
 
@@ -87,18 +81,10 @@ bool Predator::playerCollidseWithBullet()
 
 void Predator::respawn()
 {
-	if (getHealth() > 0)
+	if (!m_respawn)
 	{
-		if (!m_respawn)
-		{
-			m_timer = sf::seconds((std::rand() % 6) + 1);
-			std::cout << m_timer.asSeconds() << std::endl;
-			m_respawn = true;
-		}
+		m_timer = sf::seconds((std::rand() % 6) + 1);
+		std::cout << m_timer.asSeconds() << std::endl;
+		m_respawn = true;
 	}
-}
-
-bool Predator::getAlive()
-{
-	return m_alive;
 }

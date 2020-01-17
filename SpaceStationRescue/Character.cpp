@@ -61,10 +61,6 @@ void Character::wander()
 
 }
 
-float Character::getRadius()
-{
-	return radius;
-}
 
 void Character::takeDamage(int damage)
 {
@@ -109,6 +105,11 @@ void Character::shootBullet(sf::Vector2f location, sf::Vector2f direction)
 		bulletPosition = location;
 		bulletDirection = direction;
 	}
+}
+
+void Character::setHealth(int num)
+{
+	health = num;
 }
 
 void Character::setSpeed(float t_speed)

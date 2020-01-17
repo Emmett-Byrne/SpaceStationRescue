@@ -16,8 +16,8 @@ The predator character.
 
 Work done by oisin:
 
-Nests,
-Worker,
-Sweeper,
-Radar,
-power ups,
+Nests (was working),
+Worker (kinda done),
+Sweeper (not done),
+Radar (done),
+power ups (done),

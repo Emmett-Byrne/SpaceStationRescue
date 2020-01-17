@@ -12,11 +12,15 @@ public:
 	void setMoveRight(bool b) { moveRight = b; };
 	void fire(sf::Vector2f target);
 
+
+	int score{ 0 };
+
 private:
 	bool moveUp;
 	bool moveDown;
 	bool moveLeft;
 	bool moveRight;
+
 
 
 	bool speedBoost;

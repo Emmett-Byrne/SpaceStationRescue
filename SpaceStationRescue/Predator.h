@@ -13,8 +13,6 @@ public:
 
 	void respawn();
 
-	bool getAlive();
-
 private:
 	bool collidesWithPlayer();
 	bool collidesWithBullet();
@@ -23,6 +21,8 @@ private:
 
 	float fireRange;
 	sf::Time fireCooldown;
+
+	bool m_respawn;
 
 
 	sf::Vector2f m_respawnPos;
