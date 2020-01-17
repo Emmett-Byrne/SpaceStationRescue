@@ -55,6 +55,17 @@ void Character::followPath()
 	}
 }
 
+void Character::wander()
+{
+
+
+}
+
+float Character::getRadius()
+{
+	return radius;
+}
+
 void Character::takeDamage(int damage)
 {
 	health -= damage;
@@ -98,6 +109,16 @@ void Character::shootBullet(sf::Vector2f location, sf::Vector2f direction)
 		bulletPosition = location;
 		bulletDirection = direction;
 	}
+}
+
+void Character::setSpeed(float t_speed)
+{
+	speed = t_speed;
+}
+
+float Character::getSpeed()
+{
+	return speed;
 }
 
 Tile* Character::collidesWithWorld(sf::Vector2f pos, float rad)
@@ -164,6 +185,16 @@ bool Character::circleCircleCollision(sf::Vector2f position1, float radius1, sf:
 {
 	sf::Vector2f between = position1 - position2;
 	return sqrt(between.x * between.x + between.y * between.y) < radius1 + radius2;
+}
+
+void Character::setPosition(sf::Vector2f t_pos)
+{
+	position = t_pos;
+}
+
+Grid Character::getGrid()
+{
+	return grid;
 }
 
 void Character::render(sf::RenderWindow& t_window, sf::Vector2f offset, sf::Color colour)

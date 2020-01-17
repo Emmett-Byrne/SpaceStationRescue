@@ -3,10 +3,24 @@
 Game::Game() :
 	m_window{ sf::VideoMode{ 1920, 1080, 32 }, "Rescue" },
 	m_exitGame{ false },
-	grid(30,30, 200),
-	player(sf::Vector2f(100, 100), 8.0f, 30, grid),
-	predator(sf::Vector2f(1900, 1900), 8.0f, 30, grid,player)
+	m_grid(30,30, 200),
+	m_miniMap(m_window.getDefaultView()),
+	m_player(sf::Vector2f(100, 100), 8.0f, 30, m_grid),
+	//m_predator(sf::Vector2f(1900, 1900), 8.0f, 30, m_grid,m_player),
+	
+	m_worker(sf::Vector2f(100,100), 8.0f, 30, m_grid),
+	
+	m_missile(sf::Vector2f(500,100), 8.0f, 8.0f, m_grid, sf::Vector2f(500,100)),
+	m_nest(sf::Vector2f(500,100), 30.0f, m_grid, 500, m_player, m_missile),
+
+	m_missile2(sf::Vector2f(1000, 100), 8.0f, 8.0f, m_grid, sf::Vector2f(1000, 100)),
+	m_nest2(sf::Vector2f(1000, 100), 30.0f, m_grid, 500, m_player, m_missile2),
+
+	m_powerUp(sf::Vector2f(2000, 100), 30,m_grid, m_player)
 {
+	m_miniMap.zoom(6.0f);
+	m_miniMap.setCenter(3600, 2200);
+	m_miniMap.setViewport(sf::FloatRect(0.8f, 0.0f, 0.25f, 0.25f));
 }
 
 Game::~Game()
@@ -51,25 +65,25 @@ void Game::processEvents()
 		{
 			if (event.key.code == sf::Keyboard::Up)
 			{
-				player.setMoveUp(true);
+				m_player.setMoveUp(true);
 			}
 			if (event.key.code == sf::Keyboard::Down)
 			{
-				player.setMoveDown(true);
+				m_player.setMoveDown(true);
 			}
 			if (event.key.code == sf::Keyboard::Left)
 			{
-				player.setMoveLeft(true);
+				m_player.setMoveLeft(true);
 			}
 			if (event.key.code == sf::Keyboard::Right)
 			{
-				player.setMoveRight(true);
+				m_player.setMoveRight(true);
 			}
 
 			if (event.key.code == sf::Keyboard::Space)
 			{
 				sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-				player.fire(sf::Vector2f(mousePos.x, mousePos.y) - sf::Vector2f(1920 /2, 1080 / 2) + player.getPosition());
+				m_player.fire(sf::Vector2f(mousePos.x, mousePos.y) - sf::Vector2f(1920 /2, 1080 / 2) + m_player.getPosition());
 			}
 		}
 
@@ -77,19 +91,19 @@ void Game::processEvents()
 		{
 			if (event.key.code == sf::Keyboard::Up)
 			{
-				player.setMoveUp(false);
+				m_player.setMoveUp(false);
 			}
 			if (event.key.code == sf::Keyboard::Down)
 			{
-				player.setMoveDown(false);
+				m_player.setMoveDown(false);
 			}
 			if (event.key.code == sf::Keyboard::Left)
 			{
-				player.setMoveLeft(false);
+				m_player.setMoveLeft(false);
 			}
 			if (event.key.code == sf::Keyboard::Right)
 			{
-				player.setMoveRight(false);
+				m_player.setMoveRight(false);
 			}
 		}
 
@@ -116,20 +130,53 @@ void Game::processEvents()
 
 void Game::update(sf::Time t_deltaTime)
 {
-	player.update(t_deltaTime);
-	std::cout << player.getPosition().x << ", " << player.getPosition().y << std::endl;
-	predator.update(t_deltaTime); 
+	m_player.update(t_deltaTime);
+	std::cout << m_player.getPosition().x << ", " << m_player.getPosition().y << std::endl;
+	//m_predator.update(t_deltaTime); 
+	m_nest.update(t_deltaTime);
+	m_nest2.update(t_deltaTime);
+
+	m_powerUp.update(t_deltaTime);
 }
 
 void Game::render()
 {
 	m_window.clear(sf::Color::Blue);
 
-	sf::Vector2f offset = -player.getPosition() + sf::Vector2f(1920/2, 1080/2);
+	
+	m_window.setView(m_window.getDefaultView());
 
-	grid.render(m_window, offset);
-	player.render(m_window, offset, sf::Color::Green);
-	predator.render(m_window, offset, sf::Color::Red); 
+
+	sf::Vector2f offset = -m_player.getPosition() + sf::Vector2f(1920/2, 1080/2);
+
+	m_grid.render(m_window, offset);
+
+	m_missile.render(m_window, offset, sf::Color::Cyan);
+	m_nest.render(m_window, offset, sf::Color::Yellow);
+
+	m_missile2.render(m_window, offset, sf::Color::Cyan);
+	m_nest2.render(m_window, offset, sf::Color::Yellow);
+
+	m_powerUp.render(m_window, offset, sf::Color::White);
+
+	m_player.render(m_window, offset, sf::Color::Green);
+
+	//m_worker.render(m_window, offset, sf::Color::Cyan);
+
+	//-------------------------------------------------------------------
+	
+	m_window.setView(m_miniMap);
+
+	m_grid.render(m_window, offset);
+
+	m_missile.render(m_window, offset, sf::Color::Cyan);
+	m_nest.render(m_window, offset, sf::Color::Yellow);
+
+	m_missile2.render(m_window, offset, sf::Color::Cyan);
+	m_nest2.render(m_window, offset, sf::Color::Yellow);
+
+	m_player.render(m_window, offset, sf::Color::Green);
+
 
 	m_window.display();
 }

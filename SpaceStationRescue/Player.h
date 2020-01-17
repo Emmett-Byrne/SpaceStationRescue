@@ -17,5 +17,7 @@ private:
 	bool moveDown;
 	bool moveLeft;
 	bool moveRight;
-};
 
+
+	bool speedBoost;
+};
