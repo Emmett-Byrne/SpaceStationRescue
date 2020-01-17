@@ -165,6 +165,16 @@ bool Character::circleCircleCollision(sf::Vector2f position1, float radius1, sf:
 	return sqrt(between.x * between.x + between.y * between.y) < radius1 + radius2;
 }
 
+void Character::setPosition(sf::Vector2f t_pos)
+{
+	position = t_pos;
+}
+
+Grid Character::getGrid()
+{
+	return grid;
+}
+
 void Character::render(sf::RenderWindow& t_window, sf::Vector2f offset, sf::Color colour)
 {
 	if (health > 0)

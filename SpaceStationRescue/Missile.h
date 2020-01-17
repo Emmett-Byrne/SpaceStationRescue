@@ -10,7 +10,7 @@ public:
 	void update(sf::Time t_deltaTime, sf::Vector2f t_pos);
 
 
-	void fireMissile(sf::Vector2f t_pos);
+	void fireMissile();
 
 	sf::Vector2f m_spawnPoint;
 

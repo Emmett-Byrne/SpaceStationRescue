@@ -27,6 +27,9 @@ public:
 	static bool circleRectCollision(sf::Vector2f circlePosition, int circleRadius, sf::Vector2f rectPosition, int rectWidth, int rectHeight);
 	static bool circleCircleCollision(sf::Vector2f position1, float radius1, sf::Vector2f position2, float radius2);
 
+	void setPosition(sf::Vector2f t_pos);
+	Grid getGrid();
+
 	virtual void render(sf::RenderWindow& t_window, sf::Vector2f offset, sf::Color colour);
 
 	Tile* target;

@@ -4,10 +4,17 @@ Game::Game() :
 	m_window{ sf::VideoMode{ 1920, 1080, 32 }, "Rescue" },
 	m_exitGame{ false },
 	m_grid(30,30, 200),
+	m_miniMap(m_window.getDefaultView()),
 	m_player(sf::Vector2f(100, 100), 8.0f, 30, m_grid),
 	m_predator(sf::Vector2f(1900, 1900), 8.0f, 30, m_grid,m_player),
-	m_worker(sf::Vector2f(100,100), 8.0f, 30, m_grid)
+	m_worker(sf::Vector2f(100,100), 8.0f, 30, m_grid),
+	m_missile(sf::Vector2f(500,100),8.0f, 4.0f, m_grid, sf::Vector2f(500,100)),
+	m_nest(sf::Vector2f(500,100), 16.0f, m_grid, 30, m_player, m_missile),
+	m_missile2(sf::Vector2f(1000, 100), 8.0f, 4.0f, m_grid, sf::Vector2f(1000, 100)),
+	m_nest2(sf::Vector2f(1000, 100), 16.0f, m_grid, 30, m_player, m_missile2)
 {
+	m_miniMap.zoom(4.0f);
+	m_miniMap.setViewport(sf::FloatRect(0.0f, 0.0f, 0.25f, 0.25f));
 }
 
 Game::~Game()
@@ -120,19 +127,46 @@ void Game::update(sf::Time t_deltaTime)
 	m_player.update(t_deltaTime);
 	std::cout << m_player.getPosition().x << ", " << m_player.getPosition().y << std::endl;
 	m_predator.update(t_deltaTime); 
+	m_nest.update(t_deltaTime);
+	m_nest2.update(t_deltaTime);
 }
 
 void Game::render()
 {
 	m_window.clear(sf::Color::Blue);
 
+	
+	m_window.setView(m_window.getDefaultView());
+
+
 	sf::Vector2f offset = -m_player.getPosition() + sf::Vector2f(1920/2, 1080/2);
 
 	m_grid.render(m_window, offset);
+
+	m_missile.render(m_window, offset, sf::Color::Cyan);
+	m_nest.render(m_window, offset, sf::Color::Yellow);
+
+	m_missile2.render(m_window, offset, sf::Color::Cyan);
+	m_nest2.render(m_window, offset, sf::Color::Yellow);
+
 	m_player.render(m_window, offset, sf::Color::Green);
 	m_predator.render(m_window, offset, sf::Color::Red); 
 
-	m_worker.render(m_window, offset, sf::Color::Cyan);
+	//m_worker.render(m_window, offset, sf::Color::Cyan);
+
+
+	m_window.setView(m_miniMap);
+	
+	m_grid.render(m_window, offset);
+
+	m_missile.render(m_window, offset, sf::Color::Cyan);
+	m_nest.render(m_window, offset, sf::Color::Yellow);
+
+	m_missile2.render(m_window, offset, sf::Color::Cyan);
+	m_nest2.render(m_window, offset, sf::Color::Yellow);
+
+	m_player.render(m_window, offset, sf::Color::Green);
+	m_predator.render(m_window, offset, sf::Color::Red);
 
 	m_window.display();
 }
