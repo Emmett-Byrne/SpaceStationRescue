@@ -106,6 +106,16 @@ void Character::shootBullet(sf::Vector2f location, sf::Vector2f direction)
 	}
 }
 
+void Character::setSpeed(float t_speed)
+{
+	speed = t_speed;
+}
+
+float Character::getSpeed()
+{
+	return speed;
+}
+
 Tile* Character::collidesWithWorld(sf::Vector2f pos, float rad)
 {
 	Tile* currTile = grid.findAtCoordinatePosition(pos);

@@ -7,7 +7,7 @@
 #include "Worker.h"
 #include "Nest.h"
 #include "Missile.h"
-
+#include "PowerUp.h"
 
 
 class Game
@@ -24,7 +24,7 @@ private:
 
 	Grid m_grid;
 	Player m_player;
-	Predator m_predator;
+	//Predator m_predator;
 	
 	Worker m_worker;
 
@@ -33,6 +33,8 @@ private:
 
 	Nest m_nest2;
 	Missile m_missile2;
+
+	PowerUp m_powerUp;
 
 
 	sf::RenderWindow m_window; // main SFML window

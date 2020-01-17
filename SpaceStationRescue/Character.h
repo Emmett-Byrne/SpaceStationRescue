@@ -22,6 +22,9 @@ public:
 	void updateBullet(sf::Time dt);
 	void shootBullet(sf::Vector2f location, sf::Vector2f direction);
 
+	void setSpeed(float t_speed);
+	float getSpeed();
+
 	Tile* collidesWithWorld(sf::Vector2f pos, float rad);
 	void collidesWithBounds(sf::Vector2f& pos, float rad);
 	static bool circleRectCollision(sf::Vector2f circlePosition, int circleRadius, sf::Vector2f rectPosition, int rectWidth, int rectHeight);

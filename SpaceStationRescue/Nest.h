@@ -13,18 +13,16 @@ public:
 
 	void update(sf::Time t_deltaTime);
 
-	void spawnPredator(sf::Vector2f t_pos);
-
 	float defenceRadius;
 
 	void render(sf::RenderWindow& t_window, sf::Vector2f t_offset, sf::Color t_colour);
-
-	std::vector<Predator> pList;
 
 
 private:
 	Player& m_player;
 	Missile& m_missile;
+
+	bool m_alive;
 
 
 	Predator p1;

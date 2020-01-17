@@ -10,45 +10,42 @@ Nest::Nest(sf::Vector2f t_pos, float t_size, Grid& t_grid, float t_defenceRadius
 	p2(t_pos, 8.0f, t_size, t_grid, t_player),
 	p3(t_pos, 8.0f, t_size, t_grid, t_player)
 {
+	m_alive = true;
 }
 
 void Nest::update(sf::Time t_deltaTime)
 {
-	if (!m_missile.m_active)
+	if (m_alive)
 	{
-		if (Character::circleCircleCollision(m_player.getPosition(), m_player.getRadius(), getPosition(), defenceRadius))
+		if (!m_missile.m_active)
 		{
-			m_missile.fireMissile();
+			if (Character::circleCircleCollision(m_player.getPosition(), m_player.getRadius(), getPosition(), defenceRadius))
+			{
+				m_missile.fireMissile();
+			}
+		}
+
+
+		if (!p1.getAlive())
+		{
+			p1.respawn();
+		}
+		if (!p2.getAlive())
+		{
+			p2.respawn();
+		}
+		if (!p3.getAlive())
+		{
+			p3.respawn();
 		}
 	}
 
+
 	m_missile.update(t_deltaTime, m_player.getPosition());
-
-
-	if (!p1.getAlive())
-	{
-		p1.respawn();
-	}
-	if (!p2.getAlive())
-	{
-		p2.respawn();
-	}
-	if (!p3.getAlive())
-	{
-		p3.respawn();
-	}
-
-
 
 	p1.update(t_deltaTime);
 	p2.update(t_deltaTime);
 	p3.update(t_deltaTime);
-}
-
-
-void Nest::spawnPredator(sf::Vector2f t_pos)
-{
-
 }
 
 void Nest::render(sf::RenderWindow& t_window, sf::Vector2f t_offset, sf::Color t_colour)

@@ -6,15 +6,21 @@ Game::Game() :
 	m_grid(30,30, 200),
 	m_miniMap(m_window.getDefaultView()),
 	m_player(sf::Vector2f(100, 100), 8.0f, 30, m_grid),
-	m_predator(sf::Vector2f(1900, 1900), 8.0f, 30, m_grid,m_player),
+	//m_predator(sf::Vector2f(1900, 1900), 8.0f, 30, m_grid,m_player),
+	
 	m_worker(sf::Vector2f(100,100), 8.0f, 30, m_grid),
-	m_missile(sf::Vector2f(500,100),8.0f, 4.0f, m_grid, sf::Vector2f(500,100)),
-	m_nest(sf::Vector2f(500,100), 16.0f, m_grid, 30, m_player, m_missile),
-	m_missile2(sf::Vector2f(1000, 100), 8.0f, 4.0f, m_grid, sf::Vector2f(1000, 100)),
-	m_nest2(sf::Vector2f(1000, 100), 16.0f, m_grid, 30, m_player, m_missile2)
+	
+	m_missile(sf::Vector2f(500,100), 8.0f, 8.0f, m_grid, sf::Vector2f(500,100)),
+	m_nest(sf::Vector2f(500,100), 30.0f, m_grid, 500, m_player, m_missile),
+
+	m_missile2(sf::Vector2f(1000, 100), 8.0f, 8.0f, m_grid, sf::Vector2f(1000, 100)),
+	m_nest2(sf::Vector2f(1000, 100), 30.0f, m_grid, 500, m_player, m_missile2),
+
+	m_powerUp(sf::Vector2f(2000, 100), 30,m_grid, m_player)
 {
-	m_miniMap.zoom(4.0f);
-	m_miniMap.setViewport(sf::FloatRect(0.0f, 0.0f, 0.25f, 0.25f));
+	m_miniMap.zoom(6.0f);
+	m_miniMap.setCenter(3600, 2200);
+	m_miniMap.setViewport(sf::FloatRect(0.8f, 0.0f, 0.25f, 0.25f));
 }
 
 Game::~Game()
@@ -126,9 +132,11 @@ void Game::update(sf::Time t_deltaTime)
 {
 	m_player.update(t_deltaTime);
 	std::cout << m_player.getPosition().x << ", " << m_player.getPosition().y << std::endl;
-	m_predator.update(t_deltaTime); 
+	//m_predator.update(t_deltaTime); 
 	m_nest.update(t_deltaTime);
 	m_nest2.update(t_deltaTime);
+
+	m_powerUp.update(t_deltaTime);
 }
 
 void Game::render()
@@ -149,14 +157,16 @@ void Game::render()
 	m_missile2.render(m_window, offset, sf::Color::Cyan);
 	m_nest2.render(m_window, offset, sf::Color::Yellow);
 
+	m_powerUp.render(m_window, offset, sf::Color::White);
+
 	m_player.render(m_window, offset, sf::Color::Green);
-	m_predator.render(m_window, offset, sf::Color::Red); 
 
 	//m_worker.render(m_window, offset, sf::Color::Cyan);
 
-
-	m_window.setView(m_miniMap);
+	//-------------------------------------------------------------------
 	
+	m_window.setView(m_miniMap);
+
 	m_grid.render(m_window, offset);
 
 	m_missile.render(m_window, offset, sf::Color::Cyan);
@@ -166,7 +176,7 @@ void Game::render()
 	m_nest2.render(m_window, offset, sf::Color::Yellow);
 
 	m_player.render(m_window, offset, sf::Color::Green);
-	m_predator.render(m_window, offset, sf::Color::Red);
+
 
 	m_window.display();
 }
